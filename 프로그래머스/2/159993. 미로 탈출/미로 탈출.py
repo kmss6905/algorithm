@@ -29,25 +29,13 @@ def bfs(srcx, srcy, src_cost, destinationType, maps):
     return (0,0,-1)
     
     
-    
-    
-    
-    
 
 def solution(maps):
-    answer = 0
-    
-    m = len(maps)
-    n = len(maps[0])
-    
     x, y = findDestinationByType(maps, 'S')
-    print(x, y)
     lever_x, lever_y, lever_cost = bfs(x, y, 0, 'L', maps)
-    print(lever_x, lever_y, lever_cost)
     if lever_cost == -1:
         return -1
     exit_x, exit_y, exit_cost = bfs(lever_x, lever_y, lever_cost, 'E', maps)
-    print(exit_x, exit_y, exit_cost)
     return exit_cost
                     
     
