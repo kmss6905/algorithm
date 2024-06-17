@@ -1,0 +1,14 @@
+-- 코드를 작성해주세요
+-- 무슨 말인지 전혀 몰랐음
+SELECT
+    e1.ID,
+    e1.GENOTYPE,
+    e2.GENOTYPE AS PARENT_GENOTYPE
+FROM
+    ECOLI_DATA e1
+JOIN
+    ECOLI_DATA e2 ON e1.PARENT_ID = e2.ID
+WHERE
+    (e1.GENOTYPE & e2.GENOTYPE) = e2.GENOTYPE
+ORDER BY
+    e1.ID;
