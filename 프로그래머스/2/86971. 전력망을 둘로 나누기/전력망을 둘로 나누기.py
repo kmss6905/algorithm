@@ -43,7 +43,7 @@ def solution(n, wires):
                 islands.append(island_size)
 
         if len(islands) == 1:
-            differs.append(islands[0] - 1)
+            differs.append(islands[0] - 1) # 1개만 있다는 건, 노드 하나인 섬이 존재한다는 뜻 따라서 1 빼줘야함
         else:
             differs.append(abs(islands[0]-islands[1]))
     return min(differs)
