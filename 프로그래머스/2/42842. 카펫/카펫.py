@@ -1,18 +1,21 @@
 # brown, yellow
-# 2,000,000 * 5000 = 5 000 000 000 = 10^10
+"""
+def solution(brown, red):
+    nm = brown + red
+    for n in range(1, nm+1):
+        if nm%n != 0:
+            continue
+        m = nm//n
+        if (n-2)*(m-2) == red:
+            return sorted([n, m], reverse = True)
+
+"""
 def solution(brown, yellow):
-    answer = []
-    tbc = brown + yellow
-    l = []
-    for i in range(1, tbc+1):
-        if i * i <= tbc and tbc % i == 0:
-            l.append(i)
-            l.append(tbc // i)
-            
-    l = sorted(l)
-    
-    for row in l:
-        col = tbc // row
-        if row >= col and (row - 2) * (col - 2) == yellow:
-            return [row, col]
+    nm = brown + yellow
+    for n in range(1, nm + 1):
+        if nm % n != 0:
+            continue
+        m = nm // n
+        if (n - 2) * (m - 2) == yellow:
+            return sorted([n,m], reverse = True)
     
