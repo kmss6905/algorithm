@@ -1,25 +1,25 @@
 def solution(polynomial):
-    x_sum = 0
-    constant_sum = 0
-    terms = polynomial.split(' + ')
-
-    for term in terms:
-        if 'x' in term:
-            if term == 'x':
-                x_sum += 1
+    answer = []
+    elements = polynomial.split(' + ')
+    xsum = 0
+    nusum = 0
+    for element in elements:
+        if 'x' in element:
+            if element == 'x':
+                xsum += 1
             else:
-                x_sum += int(term[:-1])
+                xsum += int(element[:-1])
         else:
-            constant_sum += int(term)
-
+            nusum += int(element)
+    
     result = []
-    if x_sum:
-        if x_sum == 1:
-            result.append("x")
+    if xsum:
+        if xsum == 1:
+            answer.append("x")
         else:
-            result.append(f"{x_sum}x")
+            answer.append(f"{xsum}x")
+    if nusum:
+        answer.append(str(nusum))
 
-    if constant_sum:
-        result.append(str(constant_sum))
-
-    return " + ".join(result)
+    return " + ".join(answer)
+    
