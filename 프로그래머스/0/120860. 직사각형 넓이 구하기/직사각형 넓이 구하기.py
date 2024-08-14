@@ -1,11 +1,14 @@
 def solution(dots):
-    answer = 0
-    xs = []
-    ys = []
-    for i in dots:
-        xs.append(i[0])
-        ys.append(i[1])
-    
-    xs = list(set(xs))
-    ys = list(set(ys))
-    return abs(xs[0] - xs[1]) * abs(ys[0] - ys[1])
+    x, y = [], []
+    for dot in dots:
+        x.append(dot[0])
+        y.append(dot[1])
+    return (max(x) - min(x)) * (max(y) - min(y))
+
+def solution(dots):
+    x, y = [], []
+    for dot in dots:
+        x.append(dot[0])
+        y.append(dot[1])
+
+    return (max(x) - min(x)) * (max(y) - min(y))
