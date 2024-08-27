@@ -18,7 +18,7 @@ def solution(numbers):
 미리저장해놓기 ? -> stack 을 활용
 
 """
-def solution(numbers):
+"""def solution(numbers):
     # number index 정보를 담을 Stack 생성
     stack = []
 
@@ -41,4 +41,24 @@ def solution(numbers):
     while stack:
         answer[stack.pop()] = -1
 
+    return answer
+"""
+
+"""
+stack 은 자기 자신보다 큰 수가 나올 때 까지 임시로 저장해두는 공간
+큰 수가 나오면 pop
+
+"""
+def solution(numbers):
+    stack = []
+    answer = [-1] * len(numbers)
+    stack.append(0)
+    for i in range(1, len(numbers)):
+        while stack and numbers[stack[-1]] < numbers[i]:
+            answer[stack.pop()] = numbers[i]
+        stack.append(i)
+    
+    while stack:
+        answer[stack.pop()] = -1
+    
     return answer
