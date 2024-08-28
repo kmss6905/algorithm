@@ -1,46 +1,43 @@
-# 그래프, 최단시간 -> 다익스트라
-
-# 그래프 구현 graph = [[] for _ in range(n+1)]
-# 입력값 시작마을, 종료마을 받고 리턴값으로 종료마을에 도달했을 경우의 비용 함수 만들기
-# 모든 마을을 돌면서 왕복 비용 계산해서 가장 최대값을 res 에 넣으면서 갱신
 import heapq
-    
-    
-def dilkstra(start, end, n, graph):
-    if start == end:
-        return 0
+
+def dijkstra(start, n, graph):
     MAX = 100 * 1000
-    dist = [MAX] * (n+1)
+    dist = [MAX] * (n + 1)
     dist[start] = 0
     hq = []
-    visited = [False] * (n+1)
     heapq.heappush(hq, (0, start))
+    
     while hq:
         cur_cost, node = heapq.heappop(hq)
-        if node == end:
-            return cur_cost
         
         if cur_cost > dist[node]:
             continue
-
-        for next_cost, next_node in graph[node]:
-            total_cost = next_cost + cur_cost
+        
+        for next_node, next_cost in graph[node]:
+            total_cost = cur_cost + next_cost
             if total_cost < dist[next_node]:
                 dist[next_node] = total_cost
                 heapq.heappush(hq, (total_cost, next_node))
-        
-    return dist[end]
-        
-        
-n,m,x = map(int, input().split())
-graph = [[] for _ in range(n+1)]
+    
+    return dist
+
+n, m, x = map(int, input().split())
+graph = [[] for _ in range(n + 1)]
+reverse_graph = [[] for _ in range(n + 1)]
 
 for _ in range(m):
     s, e, t = map(int, input().split())
-    graph[s].append((t, e))
+    graph[s].append((e, t))
+    reverse_graph[e].append((s, t))
 
-res = 0
-for start in range(1, n+1):
-    res = max(res, dilkstra(start, x, n, graph) + dilkstra(x, start, n, graph))
-    
-print(res)
+# X번 마을에서 모든 마을로 가는 최단 거리
+distance_from_x = dijkstra(x, n, graph)
+# 모든 마을에서 X번 마을로 가는 최단 거리
+distance_to_x = dijkstra(x, n, reverse_graph)
+
+# 각 학생의 왕복 시간을 계산하고, 그 중 가장 긴 시간을 찾음
+max_time = 0
+for i in range(1, n + 1):
+    max_time = max(max_time, distance_from_x[i] + distance_to_x[i])
+
+print(max_time)
