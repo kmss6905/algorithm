@@ -1,4 +1,3 @@
 def solution(nums):
-    n = len(nums)/2
-    m = len(set(nums))
-    return m if n >= m else n
+    sel = len(nums) // 2
+    return min(len(set(nums)), sel)
