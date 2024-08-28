@@ -17,9 +17,12 @@ def dilkstra(start, end, n, graph):
     heapq.heappush(hq, (0, start))
     while hq:
         cur_cost, node = heapq.heappop(hq)
-        if visited[node]:
+        if node == end:
+            return cur_cost
+        
+        if cur_cost > dist[node]:
             continue
-        visited[node] = True
+
         for next_cost, next_node in graph[node]:
             total_cost = next_cost + cur_cost
             if total_cost < dist[next_node]:
