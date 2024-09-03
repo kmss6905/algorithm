@@ -1,12 +1,18 @@
 def solution(m, n, puddles):
+    # dp 테이블 초기화
+    dp = [[0] * (m+1) for _ in range(n+1)]
+    dp[1][1] = 1
     
-    _map = [[0 for j in range(m+1)] for i in range(n+1)]
-    _map[1][1] = 1
+    # 웅덩이 좌표 변환
+    puddles = [[y, x] for [x, y] in puddles]
+    
     for i in range(1, n+1):
         for j in range(1, m+1):
-            if [j, i] in puddles:
-                continue
             if i == 1 and j == 1:
-                continue
-            _map[i][j] = _map[i][j-1] + _map[i-1][j]
-    return _map[n][m] % (1000000007)
+                continue  # 시작점은 이미 처리됨
+            if [i, j] in puddles:
+                dp[i][j] = 0
+            else:
+                dp[i][j] = dp[i-1][j] + dp[i][j-1]
+    
+    return dp[n][m] % 1000000007
