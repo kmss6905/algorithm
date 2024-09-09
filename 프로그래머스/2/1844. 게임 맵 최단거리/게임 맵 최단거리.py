@@ -1,29 +1,33 @@
 from collections import deque
 
-# 방문을 언제하냐? 실제 visited 에 체크는 언제?
 def solution(maps):
-    answer = 0
-    m = len(maps) # y
-    n = len(maps[0]) # x
-    visited = [[0] * n for _ in range(m)]
-    print(visited)
-    start = (0, 0)
-    dx = [0, 0, -1, 1]
-    dy = [-1, 1, 0, 0]
+    row = len(maps) # 행
+    col = len(maps[0]) # 열
     
-    q = deque()
-    q.append((0, 0, 0))
-    visited[0][0] = 0
-    while q:
-        cnt, cy, cx = q.popleft()
-        for i in range(4):
-            ny = cy + dy[i]
-            nx = cx + dx[i]
-            # 맵을 벗어나면 안되고, 벽이 아니고 방문하지 않은 곳이어야 한다.
-            if 0 <= ny < m and 0 <= nx < n and maps[ny][nx] == 1:
-                if visited[ny][nx] == 0: # 방문하지 않은 곳
-                    visited[ny][nx] = cnt+1
-                    q.append((cnt+1, ny, nx))
+    # 방문 여부를 저장할 2차원 배열
+    visited = [[-1] * col for _ in range(row)]
+    
+    # 상하좌우 방향 이동을 위한 리스트
+    directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+    
+    # 시작점을 큐에 넣고 방문 여부를 체크
+    queue = deque([(0, 0)])
+    visited[0][0] = 1
+    
+    while queue:
+        y, x = queue.popleft()
+        distance = visited[y][x] # 현재 위치까지의 거리
+        
+        # 상하좌우 이동을 확인하며 탐색
+        for dy, dx in directions:
+            ny, nx = y + dy, x + dx
             
+            # 맵을 벗어나지 않고, 이동 가능한 칸이며, 방문하지 않은 경우
+            if 0 <= ny < row and 0 <= nx < col and maps[ny][nx] == 1 and visited[ny][nx] == -1:
+                visited[ny][nx] = distance + 1 # 거리 갱신
+                queue.append((ny, nx)) # 큐에 새로운 위치 추가
+                if ny == row - 1 and nx == col - 1:
+                    return visited[ny][nx]
     
-    return -1 if visited[m-1][n-1] == 0 else visited[m-1][n-1] + 1
+    # 상대 팀 진영에 도착할 수 없는 경우
+    return -1
