@@ -1,17 +1,20 @@
+"""
+1. 아이디어
+2. 시간복잡도
+3. 구현
+"""
 def solution(sequence):
-    # 두 가지 형태의 펄스 수열을 생성
-    arr1 = [sequence[i] if i % 2 == 0 else -sequence[i] for i in range(len(sequence))]
-    arr2 = [-sequence[i] if i % 2 == 0 else sequence[i] for i in range(len(sequence))]
+    answer = 0
+    se1 = [sequence[i] if i % 2 == 0 else -1 * sequence[i] for i in range(len(sequence))]
+    se2 = [-1 * sequence[i] if i % 2 == 0 else sequence[i] for i in range(len(sequence))]
     
-    # dp 배열 초기화: dp1과 dp2는 각각 arr1, arr2에서의 최대 부분합을 저장
     dp1, dp2 = [0] * len(sequence), [0] * len(sequence)
-    dp1[0], dp2[0] = arr1[0], arr2[0]  # 첫 번째 값으로 초기화
+    dp1[0], dp2[0] = 0, 0
     
-    # i 번째 수까지의 최대 펄스 수열 합을 계산
+    # dp[i], i 번째 수 까지 가질 수 있는 연속 철스 수열의 최대 합
     for i in range(1, len(sequence)):
-        dp1[i] = max(arr1[i], arr1[i] + dp1[i-1])
-        dp2[i] = max(arr2[i], arr2[i] + dp2[i-1])
+        dp1[i] = max(se1[i], se1[i] + dp1[i-1])
+        dp2[i] = max(se2[i], se2[i] + dp2[i-1])
     
-    # 두 펄스 수열 중 최대값 반환
     ans = max(max(dp1), max(dp2))
     return ans
