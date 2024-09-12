@@ -1,72 +1,46 @@
-"""
-3차원 어떻게 입력을 받아야 할 지 바로 머리 속으로 떠오르지 않는다.
-
-BFS
-visited = [[False] * m for _ in range(n)] * h
-
-for i in range(h):
-    for j in range(n):
-        for k in range(m):
-
-
-for i in range(h):
-    for j in range(n):
-        graph[i][j] = list(map(int, input().split()))
-
-
-"""
 from collections import deque
 
 def solutions():
     m, n, h = map(int, input().split())
     visited = [[[False] * m for _ in range(n)] for _ in range(h)]
-    graph = [[[] * m for _ in range(n)] for _ in range(h)]
+    graph = []
 
-    for i in range(h):
-        for j in range(n):
-            graph[i][j] = list(map(int, input().split()))
+    for _ in range(h):
+        layer = [list(map(int, input().split())) for _ in range(n)]
+        graph.append(layer)
 
-    starts = []
-    # 토마토 찾기 + visited 체크
-    for z in range(h):
-        for y in range(n):
-            for x in range(m):
-                if graph[z][y][x] == 1:
-                    starts.append((0, x, y, z))
+    # 토마토 위치 찾기
+    starts = [(0, x, y, z) for z in range(h) for y in range(n) for x in range(m) if graph[z][y][x] == 1]
 
     def bfs():
-        q = deque()
-        for i in starts:
-            q.append(i)
-
-        for day, x, y, z in starts:
-            visited[z][y][x] = True
-
+        q = deque(starts)
         directions = [(1, 0, 0), (-1, 0, 0), (0, 1, 0), (0, -1, 0), (0, 0, 1), (0, 0, -1)]
         min_day = -1
+
+        # BFS 탐색
         while q:
             day, x, y, z = q.popleft()
             min_day = day
+
             for dx, dy, dz in directions:
-                next_x = x + dx
-                next_y = y + dy
-                next_z = z + dz
-                # 인덱스
-                if 0 <= next_x < m and 0 <= next_y < n and 0 <= next_z < h and graph[next_z][next_y][next_x] == 0 and not visited[next_z][next_y][next_x]:
-                    graph[next_z][next_y][next_x] = 1  # 토마토 갱신
-                    q.append((day+1, next_x, next_y, next_z))
-                    visited[next_z][next_y][next_x] = True
+                nx, ny, nz = x + dx, y + dy, z + dz
+
+                # 인덱스 범위 및 토마토 상태 체크
+                if 0 <= nx < m and 0 <= ny < n and 0 <= nz < h and graph[nz][ny][nx] == 0 and not visited[nz][ny][nx]:
+                    graph[nz][ny][nx] = 1
+                    visited[nz][ny][nx] = True
+                    q.append((day+1, nx, ny, nz))
+
         return min_day
-    
+
+    # BFS 실행
     md = bfs()
-    for z in range(h):
-        for y in range(n):
-            for x in range(m):
-                if graph[z][y][x] == 0:
-                    return -1
+
+    # 익지 않은 토마토가 있는지 확인
+    if any(graph[z][y][x] == 0 for z in range(h) for y in range(n) for x in range(m)):
+        return -1
 
     return md
-
 
 if __name__ == '__main__':
     print(solutions())
