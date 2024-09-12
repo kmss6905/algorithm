@@ -1,17 +1,16 @@
-def sol(num):
-    a = input().rstrip().split(' ')
-    _map = {}
-    for v in a:
-        _map[v] = True
+def sol():
+    N = int(input())
+    hm = {}
+    for i in map(int, input().split()):
+        hm[i] = True
 
-    b = int(input())
-    c = input().rstrip().split(' ')
-    d = []
-    for v in c:
-        if v in _map:
+    M = int(input())
+    for i in map(int, input().split()):
+        if i in hm:
             print(1)
         else:
             print(0)
-            
-            
-sol(int(input()))
+
+
+if __name__ == '__main__':
+    sol()
