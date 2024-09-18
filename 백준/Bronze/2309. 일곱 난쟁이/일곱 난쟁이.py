@@ -1,26 +1,19 @@
 if __name__ == '__main__':
-    people = []
-    sum = 0
-    for _ in range(9):
-        tall = int(input())
-        people.append(tall)
-        sum += tall
+    people = sorted([int(input()) for _ in range(9)])
+    pivot = sum(people) - 100
 
-    people.sort()
-    pivot = sum - 100
-    left, right = 0, len(people) - 1
-    fake = []
+    left, right = 0, 8
+    fake1, fake2 = 0, 0
+
     while left < right:
         if people[left] + people[right] == pivot:
-            fake.append(people[left])
-            fake.append(people[right])
+            fake1, fake2 = people[left], people[right]
             break
         if people[left] + people[right] < pivot:
             left += 1
         else:
             right -= 1
 
-    for p in people:
-        if p == fake[0] or p == fake[1]:
-            continue
-        print(p)
+    for height in people:
+        if height not in (fake1, fake2):
+            print(height)
