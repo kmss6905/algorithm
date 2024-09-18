@@ -1,3 +1,4 @@
+# https://djgohigh.tistory.com/93
 def solution(sequence, k):
     # 투포인터 각각 가리킬 왼,오 인덱스 선언
     l = r = 0
