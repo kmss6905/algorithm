@@ -2,25 +2,29 @@
 def solution(h1, m1, s1, h2, m2, s2):
     answer = 0
 
+    # 시작시간과 종료시간을 초단위로 계산한다.
     startTime = h1 * 3600 + m1 * 60 + s1
     endTime = h2 * 3600 + m2 * 60 + s2  
 
-    if startTime == 0 * 3600 or startTime == 12 * 3600:
+    # 시작 시간이 12시 인 경우 -> 시분침 다 겹침
+    if startTime == 0 * 3600 or startTime == 12 * 3600: # m1, s1 모두 0이다.
         answer += 1
 
     while startTime < endTime:
         # 시침 1시간 = 30도 -> 1초에 30/3600도 즉, 1/120도 이동
         # 분침 1분 = 6도 -> 1초에 6/60도 즉, 1/10도 이동
-        # 초침 1초 = 6도 -> 1초에 6도 이동 
+        # 초침 1초 = 6도 -> 1초에 6도 이동
+        # 현재 시,분,침의 각도
         hCurAngle = startTime / 120 % 360
         mCurAngle = startTime / 10 % 360
         sCurAngle = startTime * 6 % 360
 
+        
         hNextAngle = 360 if (startTime + 1) / 120 % 360 == 0 else (startTime + 1) / 120 % 360
         mNextAngle = 360 if (startTime + 1) / 10 % 360 == 0 else (startTime + 1) / 10 % 360
         sNextAngle = 360 if (startTime + 1) * 6 % 360 == 0 else (startTime + 1) * 6 % 360
 
-        # 각도가 정확해질 수는 없다는 것이 중요함. 0.008333333
+        # 각도가 정확해질 수는 없다는 것이 중요함. 시침이 1초동안 이동하는 각도 = 0.008333333 도
         # 1초 사이에 지나갈 수도 있기 때문에 아래과 같은 수식으로 작성해야함.
         if sCurAngle < hCurAngle and sNextAngle >= hNextAngle:
             answer += 1
