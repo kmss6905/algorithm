@@ -2,19 +2,21 @@ class Solution {
     public int solution(String[] babbling) {
         int answer = 0;
         String[] words = {"aya", "ye", "woo", "ma"};
-
-        for (String bab : babbling) {
-            String w = bab; // ayaye
-            for (String word : words) { // "aya", "ye", "woo", "ma"
-                if (w.contains(word)) { // ayaye contins aya ?  -> *ye conteins ye ?
-                    w = w.replace(word, "*"); // *ye -> **
+        for(String bob: babbling){
+            String w = bob;
+            for(String word: words){
+                if(w.contains(word)){
+                    w = w.replace(word, "*");
                 }
             }
-            w = w.replace("*", ""); // 다시 empty 로 바꿈
-            if (w.isEmpty()) {
-                answer++;
+            if(w.contains("*")){
+                w = w.replace("*", "");
+            }
+            if(w.isEmpty()){
+                answer += 1;
             }
         }
+        
         return answer;
     }
 }
